@@ -55,60 +55,30 @@
   </head>
 
   <body>
-    <!-- Navegación -->
-    <nav class="flex justify-around p-4 fixed bottom-0 w-full z-10">
-      <button id="btnLogin" onclick="mostrarPantalla('login')">Login</button>
-      <button id="btnRegistro" onclick="mostrarPantalla('registro')">
-        Registro
-      </button>
-      <button id="btnForo" onclick="mostrarPantalla('temas')" class="hidden">
-        Foro
-      </button>
-      <button
-        id="btnEvaluaciones"
-        onclick="mostrarPantalla('evaluaciones')"
-        class="hidden"
-      >
-        Tests
-      </button>
-      <button id="btnGuias" onclick="mostrarPantalla('guias')" class="hidden">
-        Guías
-      </button>
-      <button id="btnAgenda" onclick="mostrarPantalla('agenda')" class="hidden">
-        Agendar
-      </button>
-      <button id="btnLogout" onclick="cerrarSesion()" class="hidden">
-        Logout
-      </button>
-      <button id="btnTema" onclick="alternarTema()">🌞 Tema</button>
-    </nav>
+    <!-- Botón de tema -->
+    <button id="btnTema" onclick="alternarTema()">🌞 Tema</button>
 
     <main class="pt-10 pb-20 px-6">
-      <!-- Bienvenida -->
+      <!-- Bienvenida tipo EcoMente -->
       <section id="bienvenida" class="pantalla hidden container">
         <h1>EcoMente</h1>
         <p class="subtitle">Cree en tu propio crecimiento 🌿</p>
 
         <div class="card-grid">
           <div class="card" onclick="mostrarPantalla('guias')">
-            📖<br />
-            Guías de manejo emocional
-          </div>
-          <div class="card" onclick="mostrarPantalla('respira')">
-            🌬️<br />
-            Respira
+            📖<br />Guías
           </div>
           <div class="card" onclick="mostrarPantalla('evaluaciones')">
-            🙂<br />
-            Test de ánimo
+            🙂<br />Test
           </div>
-          <div class="card" onclick="mostrarPantalla('psicoeducacion')">
-            📅<br />
-            Psicoeducación
+          <div class="card" onclick="mostrarPantalla('agenda')">
+            📅<br />Agendar
           </div>
-          <div class="card forum-card" onclick="mostrarPantalla('temas')">
-            💬 Foro de conversación<br />
-            <small>Conecta con la comunidad</small>
+          <div class="card" onclick="mostrarPantalla('temas')">
+            💬<br />Foro
+          </div>
+          <div class="card forum-card" onclick="cerrarSesion()">
+            🔓<br />Cerrar sesión
           </div>
         </div>
       </section>
