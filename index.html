@@ -54,6 +54,27 @@
   </head>
 
   <body>
+    <button
+      id="btnTema"
+      onclick="alternarTema()"
+      style="
+        position: fixed;
+        top: 1rem;
+        right: 1rem;
+        z-index: 50;
+        background-color: #fcd34d;
+        color: #111827;
+        border: none;
+        padding: 0.5rem 1rem;
+        border-radius: 9999px;
+        font-weight: 600;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+        transition: background-color 0.3s, color 0.3s;
+      "
+    >
+      🌞 Tema
+    </button>
+
     <!-- Navegación -->
     <nav class="flex justify-around p-4 fixed bottom-0 w-full z-10">
       <button id="btnLogin" onclick="mostrarPantalla('login')">Login</button>
