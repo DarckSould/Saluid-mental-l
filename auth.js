@@ -12,7 +12,7 @@ async function registrarUsuario(event) {
     const res = await fetch(`${API_BASE}/register`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      credentials: 'include', // 👈 importante
+      credentials: 'include',
       body: JSON.stringify({ nombre, email, password }),
     });
 
@@ -38,32 +38,40 @@ async function iniciarSesion(event) {
     const res = await fetch(`${API_BASE}/login`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      credentials: 'include', // 👈 importante
+      credentials: 'include',
       body: JSON.stringify({ email, password }),
     });
 
     const data = await res.json();
     if (!res.ok) throw new Error(data.error || 'Credenciales incorrectas');
 
-    // ya no necesitas guardar el token, está en cookie
     alert('Inicio de sesión exitoso.');
     document.getElementById('errorLogin').textContent = '';
+
+    // Esperar a que el navegador registre la cookie (solo 300ms)
+    await new Promise((r) => setTimeout(r, 300));
+
     mostrarPantalla('temas');
     document.getElementById('btnLogin').classList.add('hidden');
     document.getElementById('btnRegistro').classList.add('hidden');
     document.getElementById('btnLogout').classList.remove('hidden');
-    cargarTemas(); // 👈 si es necesario
+    document.getElementById('btnForo').classList.remove('hidden');
+    document.getElementById('btnEvaluaciones').classList.remove('hidden');
+    document.getElementById('btnGuias').classList.remove('hidden');
+    document.getElementById('btnAgenda').classList.remove('hidden');
+
+    cargarTemas(); // si usas temas
   } catch (err) {
     document.getElementById('errorLogin').textContent = err.message;
   }
 }
 
-// Logout (cierre de sesión)
+// Logout
 async function cerrarSesion() {
   try {
     await fetch(`${API_BASE}/logout`, {
       method: 'POST',
-      credentials: 'include', // 👈 para eliminar cookie en el backend
+      credentials: 'include',
     });
   } catch (err) {
     console.warn('Error al cerrar sesión en el servidor:', err);
@@ -74,4 +82,8 @@ async function cerrarSesion() {
   document.getElementById('btnLogin').classList.remove('hidden');
   document.getElementById('btnRegistro').classList.remove('hidden');
   document.getElementById('btnLogout').classList.add('hidden');
+  document.getElementById('btnForo').classList.add('hidden');
+  document.getElementById('btnEvaluaciones').classList.add('hidden');
+  document.getElementById('btnGuias').classList.add('hidden');
+  document.getElementById('btnAgenda').classList.add('hidden');
 }
