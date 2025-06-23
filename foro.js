@@ -28,7 +28,7 @@ async function cargarTemas() {
   const lista = document.getElementById('listaTemas');
   lista.innerHTML = '<p>Cargando...</p>';
   try {
-    await new Promise((r) => setTimeout(r, 300));
+    await new Promise((r) => setTimeout(r, 1000));
     const res = await fetch(API_TEMAS, { credentials: 'include' });
     const temas = await res.json();
     lista.innerHTML = '';
@@ -54,7 +54,7 @@ async function cargarMensajes(temaId) {
   const contenedor = document.getElementById('listaMensajes');
   contenedor.innerHTML = '<p>Cargando mensajes...</p>';
   try {
-    await new Promise((r) => setTimeout(r, 300));
+    await new Promise((r) => setTimeout(r, 1000));
     const res = await fetch(`${API_MENSAJES}/${temaId}`, {
       credentials: 'include',
     });
@@ -78,7 +78,7 @@ async function publicarMensaje() {
   if (!contenido || !temaActivoId) return alert('Debes iniciar sesión');
 
   try {
-    await new Promise((r) => setTimeout(r, 300));
+    await new Promise((r) => setTimeout(r, 1000));
     const res = await fetch(API_MENSAJES, {
       method: 'POST',
       headers: {
@@ -102,7 +102,7 @@ async function crearTema() {
   if (!titulo || !descripcion) return alert('Completa todos los campos');
 
   try {
-    await new Promise((r) => setTimeout(r, 300));
+    await new Promise((r) => setTimeout(r, 1000));
     const res = await fetch(API_TEMAS, {
       method: 'POST',
       headers: {

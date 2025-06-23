@@ -5,7 +5,7 @@ async function agendarCita(event) {
   const motivo = document.getElementById('motivoCita').value.trim();
 
   try {
-    await new Promise((r) => setTimeout(r, 300));
+    await new Promise((r) => setTimeout(r, 1000));
     const res = await fetch('https://backend-salud-mental.onrender.com/citas', {
       method: 'POST',
       headers: {
