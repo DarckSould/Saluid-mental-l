@@ -7,7 +7,6 @@
       href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="styles.css" />
     <script src="https://cdn.socket.io/4.6.1/socket.io.min.js"></script>
     <style>
       body {
@@ -55,32 +54,43 @@
   </head>
 
   <body>
-    <!-- Botón de tema -->
-    <button id="btnTema" onclick="alternarTema()">🌞 Tema</button>
+    <!-- Navegación -->
+    <nav class="flex justify-around p-4 fixed bottom-0 w-full z-10">
+      <button id="btnLogin" onclick="mostrarPantalla('login')">Login</button>
+      <button id="btnRegistro" onclick="mostrarPantalla('registro')">
+        Registro
+      </button>
+      <button id="btnForo" onclick="mostrarPantalla('temas')" class="hidden">
+        Foro
+      </button>
+      <button
+        id="btnEvaluaciones"
+        onclick="mostrarPantalla('evaluaciones')"
+        class="hidden"
+      >
+        Tests
+      </button>
+      <button id="btnGuias" onclick="mostrarPantalla('guias')" class="hidden">
+        Guías
+      </button>
+      <button id="btnAgenda" onclick="mostrarPantalla('agenda')" class="hidden">
+        Agendar
+      </button>
+      <button id="btnLogout" onclick="cerrarSesion()" class="hidden">
+        Logout
+      </button>
+      <button id="btnTema" onclick="alternarTema()">🌞 Tema</button>
+    </nav>
 
     <main class="pt-10 pb-20 px-6">
-      <!-- Bienvenida tipo EcoMente -->
+      <!-- Bienvenida -->
       <section id="bienvenida" class="pantalla hidden container">
-        <h1>EcoMente</h1>
-        <p class="subtitle">Cree en tu propio crecimiento 🌿</p>
-
-        <div class="card-grid">
-          <div class="card" onclick="mostrarPantalla('guias')">
-            📖<br />Guías
-          </div>
-          <div class="card" onclick="mostrarPantalla('evaluaciones')">
-            🙂<br />Test
-          </div>
-          <div class="card" onclick="mostrarPantalla('agenda')">
-            📅<br />Agendar
-          </div>
-          <div class="card" onclick="mostrarPantalla('temas')">
-            💬<br />Foro
-          </div>
-          <div class="card forum-card" onclick="cerrarSesion()">
-            🔓<br />Cerrar sesión
-          </div>
-        </div>
+        <h2 class="text-3xl font-bold mb-4">
+          Bienvenido, <span id="usuarioNombre"></span> 👋
+        </h2>
+        <p class="text-lg">
+          Selecciona "Foro" para ver los temas y participar.
+        </p>
       </section>
 
       <!-- Login -->
@@ -343,8 +353,10 @@
           console.log('Usuario logeado:', data.usuario);
           document.getElementById('usuarioNombre').textContent = data.usuario;
           mostrarPantalla('bienvenida');
+          actualizarNavbar(true);
         } catch (e) {
           mostrarPantalla('login');
+          actualizarNavbar(false);
         }
       });
 

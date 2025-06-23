@@ -1,73 +1,14 @@
+.pantalla {
+    display: none;
+}
+
+.pantalla.activa {
+    display: block;
+}
+
 .error {
     color: red;
     font-size: 0.875rem;
 }
 
-/* Estilo EcoMente */
-body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: linear-gradient(to bottom right, #fef6f0, #f4faf9);
-    color: #333;
-}
 
-.container {
-    max-width: 480px;
-    margin: 0 auto;
-    padding: 1rem;
-    text-align: center;
-}
-
-.logo {
-    margin-bottom: 1rem;
-}
-
-h1 {
-    font-size: 1.8rem;
-    color: #4b5563;
-    margin-bottom: 0.5rem;
-}
-
-.subtitle {
-    font-size: 1rem;
-    margin-bottom: 2rem;
-    color: #6b7280;
-}
-
-.card-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1rem;
-    margin-bottom: 1.5rem;
-}
-
-.card {
-    background-color: #e0f4f1;
-    padding: 1rem;
-    border-radius: 1rem;
-    font-weight: 500;
-    color: #155e75;
-    transition: background-color 0.3s;
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
-}
-
-.card:nth-child(even) {
-    background-color: #fceceb;
-    color: #b91c1c;
-}
-
-.card:hover {
-    background-color: #dbeafe;
-    cursor: pointer;
-}
-
-.forum-card {
-    grid-column: span 2;
-    background-color: #fef3c7;
-    color: #92400e;
-}
-
-@media (max-width: 500px) {
-    .card-grid {
-        grid-template-columns: 1fr;
-    }
-}
