@@ -1,0 +1,12 @@
+.pantalla {
+    display: none;
+}
+
+.pantalla.activa {
+    display: block;
+}
+
+.error {
+    color: red;
+    font-size: 0.875rem;
+}
