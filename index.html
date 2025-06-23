@@ -85,13 +85,38 @@
 
     <main class="pt-10 pb-20 px-6">
       <!-- Bienvenida -->
-      <section id="bienvenida" class="pantalla hidden">
-        <h2 class="text-3xl font-bold mb-4">
-          Bienvenido, <span id="usuarioNombre"></span> 👋
-        </h2>
-        <p class="text-lg">
-          Selecciona "Foro" para ver los temas y participar.
-        </p>
+      <section id="bienvenida" class="pantalla activa container">
+        <img
+          src="logo-ecomente.svg"
+          alt="EcoMente Logo"
+          class="logo"
+          style="width: 80px; margin: 0 auto"
+        />
+        <h1>EcoMente</h1>
+        <p class="subtitle">Cree en tu propio crecimiento 🌿</p>
+
+        <div class="card-grid">
+          <div class="card" onclick="mostrarPantalla('guias')">
+            📖<br />
+            Guías de manejo emocional
+          </div>
+          <div class="card" onclick="mostrarPantalla('respira')">
+            🌬️<br />
+            Respira
+          </div>
+          <div class="card" onclick="mostrarPantalla('evaluaciones')">
+            🙂<br />
+            Test de ánimo
+          </div>
+          <div class="card" onclick="mostrarPantalla('psicoeducacion')">
+            📅<br />
+            Psicoeducación
+          </div>
+          <div class="card forum-card" onclick="mostrarPantalla('temas')">
+            💬 Foro de conversación<br />
+            <small>Conecta con la comunidad</small>
+          </div>
+        </div>
       </section>
 
       <!-- Login -->
