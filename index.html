@@ -38,3 +38,18 @@
     <script type="module" src="imagenes.js"></script>
   </body>
 </html>
+
+<script>
+  function mostrarPantalla(id) {
+    document
+      .querySelectorAll('.pantalla')
+      .forEach((p) => p.classList.add('hidden'));
+    const pantalla = document.getElementById(id);
+    if (pantalla) pantalla.classList.remove('hidden');
+  }
+
+  // Muestra por defecto el login
+  document.addEventListener('DOMContentLoaded', () => {
+    mostrarPantalla('login');
+  });
+</script>
