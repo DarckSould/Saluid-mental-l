@@ -208,17 +208,61 @@
     <script type="module" src="cita.js"></script>
     <script type="module" src="imagenes.js"></script>
 
-    <script>
-      function mostrarPantalla(id) {
+    <script type="module">
+      import { API_AUTH } from './config.js';
+      import { cargarTemas } from './foro.js';
+
+      window.mostrarPantalla = function (id) {
         document
           .querySelectorAll('.pantalla')
           .forEach((p) => p.classList.add('hidden'));
         const pantalla = document.getElementById(id);
         if (pantalla) pantalla.classList.remove('hidden');
+      };
+
+      function actualizarNavbar(logeado) {
+        document.getElementById('btnLogin').classList.toggle('hidden', logeado);
+        document
+          .getElementById('btnRegistro')
+          .classList.toggle('hidden', logeado);
+        document
+          .getElementById('btnLogout')
+          .classList.toggle('hidden', !logeado);
+        document.getElementById('btnForo').classList.toggle('hidden', !logeado);
+        document
+          .getElementById('btnEvaluaciones')
+          .classList.toggle('hidden', !logeado);
+        document
+          .getElementById('btnGuias')
+          .classList.toggle('hidden', !logeado);
+        document
+          .getElementById('btnAgenda')
+          .classList.toggle('hidden', !logeado);
+        const formCrearTema = document.getElementById('formCrearTema');
+        if (formCrearTema) formCrearTema.classList.toggle('hidden', !logeado);
       }
-      document.addEventListener('DOMContentLoaded', () => {
-        mostrarPantalla('login');
-      });
+
+      async function verificarSesion() {
+        try {
+          const res = await fetch(`${API_AUTH}/me`, {
+            method: 'GET',
+            credentials: 'include',
+          });
+          if (!res.ok) throw new Error();
+
+          const data = await res.json();
+          document.getElementById('usuarioNombre').textContent =
+            data.usuario || '';
+          window.mostrarPantalla('bienvenida');
+          actualizarNavbar(true);
+          cargarTemas();
+        } catch (e) {
+          window.mostrarPantalla('login');
+          actualizarNavbar(false);
+        }
+      }
+
+      document.addEventListener('DOMContentLoaded', verificarSesion);
     </script>
   </body>
 </html>
