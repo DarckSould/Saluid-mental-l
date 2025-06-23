@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" class="">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -11,17 +11,16 @@
     <script src="https://cdn.socket.io/4.6.1/socket.io.min.js"></script>
   </head>
 
-  <body class="bg-gray-100 text-gray-800">
+  <body
+    class="bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-100 transition-colors duration-300"
+  >
     <!-- Navegación -->
     <nav
-      class="flex justify-around bg-blue-500 text-white p-4 fixed bottom-0 w-full z-10"
+      class="flex justify-around bg-blue-500 text-white p-4 fixed bottom-0 w-full z-10 dark:bg-gray-800 dark:text-white"
     >
       <button id="btnLogin" onclick="mostrarPantalla('login')">Login</button>
       <button id="btnRegistro" onclick="mostrarPantalla('registro')">
         Registro
-      </button>
-      <button id="btnForo" onclick="mostrarPantalla('temas')" class="hidden">
-        Foro
       </button>
       <button id="btnForo" onclick="mostrarPantalla('temas')" class="hidden">
         Foro
@@ -41,6 +40,9 @@
       </button>
       <button id="btnLogout" onclick="cerrarSesion()" class="hidden">
         Logout
+      </button>
+      <button id="btnToggleTema" onclick="toggleTema()" class="transition">
+        🌞 Tema
       </button>
     </nav>
 
@@ -278,8 +280,48 @@
       </section>
     </main>
 
-    <!-- Mostrar pantallas -->
+    <!-- Script para tema claro/oscuro -->
     <script>
+      function aplicarTema() {
+        const tema = localStorage.getItem('tema') || 'claro';
+        document.documentElement.classList.toggle('dark', tema === 'oscuro');
+        const btn = document.getElementById('btnToggleTema');
+        if (btn) {
+          btn.textContent = tema === 'oscuro' ? '🌙 Oscuro' : '🌞 Claro';
+        }
+      }
+
+      function toggleTema() {
+        const esOscuro = document.documentElement.classList.contains('dark');
+        const nuevoTema = esOscuro ? 'claro' : 'oscuro';
+        localStorage.setItem('tema', nuevoTema);
+        aplicarTema();
+      }
+
+      document.addEventListener('DOMContentLoaded', async () => {
+        aplicarTema();
+
+        try {
+          const res = await fetch(
+            'https://backend-salud-mental.onrender.com/auth/me',
+            {
+              credentials: 'include',
+            }
+          );
+
+          if (!res.ok) throw new Error();
+
+          const data = await res.json();
+          console.log('Usuario logeado:', data.usuario);
+          document.getElementById('usuarioNombre').textContent = data.usuario;
+          mostrarPantalla('bienvenida');
+          actualizarNavbar(true);
+        } catch (e) {
+          mostrarPantalla('login');
+          actualizarNavbar(false);
+        }
+      });
+
       function mostrarPantalla(id) {
         document
           .querySelectorAll('.pantalla')
@@ -324,28 +366,6 @@
         mostrarPantalla('login');
         actualizarNavbar(false);
       }
-
-      document.addEventListener('DOMContentLoaded', async () => {
-        try {
-          const res = await fetch(
-            'https://backend-salud-mental.onrender.com/auth/me',
-            {
-              credentials: 'include',
-            }
-          );
-
-          if (!res.ok) throw new Error();
-
-          const data = await res.json();
-          console.log('Usuario logeado:', data.usuario);
-          document.getElementById('usuarioNombre').textContent = data.usuario;
-          mostrarPantalla('bienvenida');
-          actualizarNavbar(true);
-        } catch (e) {
-          mostrarPantalla('login');
-          actualizarNavbar(false);
-        }
-      });
     </script>
 
     <!-- Scripts -->
