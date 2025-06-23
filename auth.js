@@ -1,6 +1,5 @@
 import { API_AUTH } from './config.js';
-import { API_TEMAS } from './config.js';
-import { cargarTemas } from './foro.js'; // Asegúrate de que esta función esté exportada
+import { cargarTemas } from './foro.js';
 
 export async function registrarUsuario(event) {
   event.preventDefault();
@@ -21,7 +20,7 @@ export async function registrarUsuario(event) {
 
     alert('Registro exitoso. Ya puedes iniciar sesión.');
     document.getElementById('formRegistro').reset();
-    mostrarPantalla('login');
+    window.mostrarPantalla('login');
   } catch (err) {
     alert(err.message);
   }
@@ -45,7 +44,8 @@ export async function iniciarSesion(event) {
 
     alert('Inicio de sesión exitoso.');
     document.getElementById('errorLogin').textContent = '';
-    mostrarPantalla('temas');
+
+    window.mostrarPantalla('temas');
     document.getElementById('btnLogin').classList.add('hidden');
     document.getElementById('btnRegistro').classList.add('hidden');
     document.getElementById('btnLogout').classList.remove('hidden');
@@ -53,7 +53,8 @@ export async function iniciarSesion(event) {
     document.getElementById('btnEvaluaciones').classList.remove('hidden');
     document.getElementById('btnGuias').classList.remove('hidden');
     document.getElementById('btnAgenda').classList.remove('hidden');
-    cargarTemas(); // si tienes temas en el foro
+
+    cargarTemas();
   } catch (err) {
     document.getElementById('errorLogin').textContent = err.message;
   }
@@ -70,7 +71,7 @@ export async function cerrarSesion() {
   }
 
   alert('Sesión cerrada.');
-  mostrarPantalla('login');
+  window.mostrarPantalla('login');
   document.getElementById('btnLogin').classList.remove('hidden');
   document.getElementById('btnRegistro').classList.remove('hidden');
   document.getElementById('btnLogout').classList.add('hidden');
