@@ -1,5 +1,4 @@
-<!DOCTYPE html>
-<html lang="es" class="">
+<html lang="es">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -9,15 +8,54 @@
       rel="stylesheet"
     />
     <script src="https://cdn.socket.io/4.6.1/socket.io.min.js"></script>
+    <style>
+      body {
+        background-color: #f3f4f6;
+        color: #1f2937;
+        transition: background-color 0.3s, color 0.3s;
+      }
+
+      body.dark-mode {
+        background-color: #111827;
+        color: #f9fafb;
+      }
+
+      nav {
+        background-color: #3b82f6;
+        color: white;
+        transition: background-color 0.3s;
+      }
+
+      body.dark-mode nav {
+        background-color: #1f2937;
+      }
+
+      input,
+      textarea,
+      select {
+        background-color: white;
+        color: black;
+        border: 1px solid #ccc;
+        transition: background-color 0.3s, color 0.3s;
+      }
+
+      body.dark-mode input,
+      body.dark-mode textarea,
+      body.dark-mode select {
+        background-color: #374151;
+        color: white;
+        border-color: #555;
+      }
+
+      button {
+        transition: background-color 0.3s, color 0.3s;
+      }
+    </style>
   </head>
 
-  <body
-    class="bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-100 transition-colors duration-300"
-  >
+  <body>
     <!-- Navegación -->
-    <nav
-      class="flex justify-around bg-blue-500 text-white p-4 fixed bottom-0 w-full z-10 dark:bg-gray-800 dark:text-white"
-    >
+    <nav class="flex justify-around p-4 fixed bottom-0 w-full z-10">
       <button id="btnLogin" onclick="mostrarPantalla('login')">Login</button>
       <button id="btnRegistro" onclick="mostrarPantalla('registro')">
         Registro
@@ -41,9 +79,7 @@
       <button id="btnLogout" onclick="cerrarSesion()" class="hidden">
         Logout
       </button>
-      <button id="btnToggleTema" onclick="toggleTema()" class="transition">
-        🌞 Tema
-      </button>
+      <button id="btnTema" onclick="alternarTema()">🌞 Tema</button>
     </nav>
 
     <main class="pt-10 pb-20 px-6">
@@ -280,19 +316,21 @@
       </section>
     </main>
 
-    <!-- Script para tema claro/oscuro -->
+    <!-- Scripts para tema claro/oscuro -->
     <script>
       function aplicarTema() {
-        const tema = localStorage.getItem('tema') || 'claro';
-        document.documentElement.classList.toggle('dark', tema === 'oscuro');
-        const btn = document.getElementById('btnToggleTema');
-        if (btn) {
-          btn.textContent = tema === 'oscuro' ? '🌙 Oscuro' : '🌞 Claro';
-        }
+        const tema = localStorage.getItem('tema');
+        const esOscuro =
+          tema === 'oscuro' ||
+          (!tema && window.matchMedia('(prefers-color-scheme: dark)').matches);
+        document.body.classList.toggle('dark-mode', esOscuro);
+
+        const btn = document.getElementById('btnTema');
+        if (btn) btn.textContent = esOscuro ? '🌙 Oscuro' : '🌞 Claro';
       }
 
-      function toggleTema() {
-        const esOscuro = document.documentElement.classList.contains('dark');
+      function alternarTema() {
+        const esOscuro = document.body.classList.contains('dark-mode');
         const nuevoTema = esOscuro ? 'claro' : 'oscuro';
         localStorage.setItem('tema', nuevoTema);
         aplicarTema();
@@ -368,7 +406,7 @@
       }
     </script>
 
-    <!-- Scripts -->
+    <!-- Scripts de funcionalidad -->
     <script src="foro.js"></script>
     <script src="auth.js"></script>
     <script src="evaluación.js"></script>
