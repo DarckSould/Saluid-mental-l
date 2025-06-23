@@ -14,8 +14,10 @@ export async function cargarTemas() {
     temas.forEach((t) => {
       const div = document.createElement('div');
       div.className = 'tema';
-      div.innerHTML = `<strong>${t.titulo}</strong> - ${t.descripcion}
-        <button onclick="abrirTema('${t._id}')">Ver</button>`;
+      div.innerHTML = `
+        <strong>${t.titulo}</strong> - ${t.descripcion}
+        <button onclick="abrirTema('${t._id}')" class="ml-2 px-2 py-1 bg-blue-500 text-white rounded text-sm">Ver</button>
+      `;
       lista.appendChild(div);
     });
   } catch (err) {
@@ -63,7 +65,6 @@ export async function publicarMensaje() {
     });
     if (!res.ok) throw new Error('No autorizado');
     input.value = '';
-    // El socket actualizará automáticamente
   } catch (err) {
     alert('Error al enviar mensaje');
   }
@@ -84,7 +85,6 @@ export async function crearTema() {
     if (!res.ok) throw new Error('Error al crear tema');
     document.getElementById('tituloTema').value = '';
     document.getElementById('descripcionTema').value = '';
-    // El socket actualizará la lista
   } catch (err) {
     alert('Error al crear tema');
   }
@@ -102,5 +102,8 @@ socket.on(
   (id) => id === temaActivoId && cargarMensajes(id)
 );
 
-// Exportar temaActivoId si necesitas consultar desde otro módulo
+// Exportar funciones necesarias
 export { temaActivoId };
+
+// ✅ Hacer abrirTema accesible desde HTML (window)
+window.abrirTema = abrirTema;

@@ -42,10 +42,15 @@ export async function iniciarSesion(event) {
     const data = await res.json();
     if (!res.ok) throw new Error(data.error || 'Credenciales incorrectas');
 
-    alert('Inicio de sesión exitoso.');
+    // Esperamos a que la sesión esté disponible
+    const usuario = await verificarSesion();
+    if (!usuario) throw new Error('No se pudo verificar sesión');
+
+    document.getElementById('usuarioNombre').textContent = usuario.nombre;
+    alert(`Bienvenido ${usuario.nombre}`);
     document.getElementById('errorLogin').textContent = '';
 
-    window.mostrarPantalla('temas');
+    window.mostrarPantalla('bienvenida'); // o 'temas'
     document.getElementById('btnLogin').classList.add('hidden');
     document.getElementById('btnRegistro').classList.add('hidden');
     document.getElementById('btnLogout').classList.remove('hidden');
@@ -57,6 +62,19 @@ export async function iniciarSesion(event) {
     cargarTemas();
   } catch (err) {
     document.getElementById('errorLogin').textContent = err.message;
+  }
+}
+
+export async function verificarSesion() {
+  try {
+    const res = await fetch(`${API_AUTH}/me`, {
+      credentials: 'include',
+    });
+    if (!res.ok) throw new Error('No autenticado');
+    const data = await res.json();
+    return data.usuario;
+  } catch {
+    return null;
   }
 }
 
