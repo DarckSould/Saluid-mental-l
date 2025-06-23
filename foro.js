@@ -28,7 +28,8 @@ async function cargarTemas() {
   const lista = document.getElementById('listaTemas');
   lista.innerHTML = '<p>Cargando...</p>';
   try {
-    const res = await fetch(API_TEMAS, { credentials: 'include' }); // 👈
+    await new Promise((r) => setTimeout(r, 300));
+    const res = await fetch(API_TEMAS, { credentials: 'include' });
     const temas = await res.json();
     lista.innerHTML = '';
     temas.forEach((t) => {
@@ -53,8 +54,9 @@ async function cargarMensajes(temaId) {
   const contenedor = document.getElementById('listaMensajes');
   contenedor.innerHTML = '<p>Cargando mensajes...</p>';
   try {
+    await new Promise((r) => setTimeout(r, 300));
     const res = await fetch(`${API_MENSAJES}/${temaId}`, {
-      credentials: 'include', // 👈
+      credentials: 'include',
     });
     const mensajes = await res.json();
     contenedor.innerHTML = '';
@@ -76,19 +78,18 @@ async function publicarMensaje() {
   if (!contenido || !temaActivoId) return alert('Debes iniciar sesión');
 
   try {
+    await new Promise((r) => setTimeout(r, 300));
     const res = await fetch(API_MENSAJES, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      credentials: 'include', // 👈
+      credentials: 'include',
       body: JSON.stringify({ contenido, temaId: temaActivoId }),
     });
 
     if (!res.ok) throw new Error('No autorizado');
-
     input.value = '';
-    // ya no hace falta recargar aquí, el socket lo hará
   } catch (err) {
     alert('Error al enviar mensaje');
   }
@@ -101,20 +102,19 @@ async function crearTema() {
   if (!titulo || !descripcion) return alert('Completa todos los campos');
 
   try {
+    await new Promise((r) => setTimeout(r, 300));
     const res = await fetch(API_TEMAS, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      credentials: 'include', // 👈
+      credentials: 'include',
       body: JSON.stringify({ titulo, descripcion }),
     });
 
     if (!res.ok) throw new Error('Error al crear tema');
-
     document.getElementById('tituloTema').value = '';
     document.getElementById('descripcionTema').value = '';
-    // El socket 'nuevo-tema' se encargará de recargar
   } catch (err) {
     alert('Error al crear tema');
   }

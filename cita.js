@@ -5,6 +5,7 @@ async function agendarCita(event) {
   const motivo = document.getElementById('motivoCita').value.trim();
 
   try {
+    await new Promise((r) => setTimeout(r, 300));
     const res = await fetch('https://backend-salud-mental.onrender.com/citas', {
       method: 'POST',
       headers: {
@@ -15,7 +16,6 @@ async function agendarCita(event) {
     });
 
     const data = await res.json();
-
     if (!res.ok) throw new Error(data.error || 'Error al agendar la cita');
 
     document.getElementById('respuestaCita').textContent =
