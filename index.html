@@ -343,10 +343,8 @@
           console.log('Usuario logeado:', data.usuario);
           document.getElementById('usuarioNombre').textContent = data.usuario;
           mostrarPantalla('bienvenida');
-          actualizarNavbar(true);
         } catch (e) {
           mostrarPantalla('login');
-          actualizarNavbar(false);
         }
       });
 
