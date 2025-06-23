@@ -14,7 +14,8 @@ export async function cargarTemas() {
     temas.forEach((t) => {
       const div = document.createElement('div');
       div.className = 'tema';
-      div.innerHTML = `<strong>${t.titulo}</strong> - ${t.descripcion}<button onclick="abrirTema('${t._id}')">Ver</button>`;
+      div.innerHTML = `<strong>${t.titulo}</strong> - ${t.descripcion}
+        <button onclick="abrirTema('${t._id}')">Ver</button>`;
       lista.appendChild(div);
     });
   } catch (err) {
@@ -22,7 +23,7 @@ export async function cargarTemas() {
   }
 }
 
-function abrirTema(id) {
+export function abrirTema(id) {
   temaActivoId = id;
   cargarMensajes(id);
   document.getElementById('mensajesSection').style.display = 'block';
@@ -62,6 +63,7 @@ export async function publicarMensaje() {
     });
     if (!res.ok) throw new Error('No autorizado');
     input.value = '';
+    // El socket actualizará automáticamente
   } catch (err) {
     alert('Error al enviar mensaje');
   }
@@ -82,13 +84,13 @@ export async function crearTema() {
     if (!res.ok) throw new Error('Error al crear tema');
     document.getElementById('tituloTema').value = '';
     document.getElementById('descripcionTema').value = '';
+    // El socket actualizará la lista
   } catch (err) {
     alert('Error al crear tema');
   }
 }
 
-document.addEventListener('DOMContentLoaded', cargarTemas);
-
+// Eventos socket
 socket.on('nuevo-tema', cargarTemas);
 socket.on('tema-editado', cargarTemas);
 socket.on('tema-eliminado', cargarTemas);
@@ -99,3 +101,6 @@ socket.on(
   'mensaje-eliminado',
   (id) => id === temaActivoId && cargarMensajes(id)
 );
+
+// Exportar temaActivoId si necesitas consultar desde otro módulo
+export { temaActivoId };

@@ -1,4 +1,6 @@
 import { API_AUTH } from './config.js';
+import { API_TEMAS } from './config.js';
+import { cargarTemas } from './foro.js'; // Asegúrate de que esta función esté exportada
 
 export async function registrarUsuario(event) {
   event.preventDefault();
@@ -13,8 +15,10 @@ export async function registrarUsuario(event) {
       credentials: 'include',
       body: JSON.stringify({ nombre, email, password }),
     });
+
     const data = await res.json();
     if (!res.ok) throw new Error(data.error || 'Error al registrar');
+
     alert('Registro exitoso. Ya puedes iniciar sesión.');
     document.getElementById('formRegistro').reset();
     mostrarPantalla('login');
@@ -35,15 +39,21 @@ export async function iniciarSesion(event) {
       credentials: 'include',
       body: JSON.stringify({ email, password }),
     });
+
     const data = await res.json();
     if (!res.ok) throw new Error(data.error || 'Credenciales incorrectas');
 
     alert('Inicio de sesión exitoso.');
+    document.getElementById('errorLogin').textContent = '';
     mostrarPantalla('temas');
     document.getElementById('btnLogin').classList.add('hidden');
     document.getElementById('btnRegistro').classList.add('hidden');
     document.getElementById('btnLogout').classList.remove('hidden');
-    cargarTemas();
+    document.getElementById('btnForo').classList.remove('hidden');
+    document.getElementById('btnEvaluaciones').classList.remove('hidden');
+    document.getElementById('btnGuias').classList.remove('hidden');
+    document.getElementById('btnAgenda').classList.remove('hidden');
+    cargarTemas(); // si tienes temas en el foro
   } catch (err) {
     document.getElementById('errorLogin').textContent = err.message;
   }
@@ -58,9 +68,14 @@ export async function cerrarSesion() {
   } catch (err) {
     console.warn('Error al cerrar sesión:', err);
   }
+
   alert('Sesión cerrada.');
   mostrarPantalla('login');
   document.getElementById('btnLogin').classList.remove('hidden');
   document.getElementById('btnRegistro').classList.remove('hidden');
   document.getElementById('btnLogout').classList.add('hidden');
+  document.getElementById('btnForo').classList.add('hidden');
+  document.getElementById('btnEvaluaciones').classList.add('hidden');
+  document.getElementById('btnGuias').classList.add('hidden');
+  document.getElementById('btnAgenda').classList.add('hidden');
 }
